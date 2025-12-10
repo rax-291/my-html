@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>العرض التسويقي - الآنسة فصيحة</title>
+  <link rel="icon" href="logo.png" type="image/png"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+    }
+
+    .promo-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+      overflow: hidden;
+    }
+
+    /* Falling Petals */
+    .petal {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.7;
+      pointer-events: none;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Scene Container */
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      padding: 2rem;
+    }
+
+    .scene.active {
+      opacity: 1;
+    }
+
+    .scene-content {
+      text-align: center;
+      color: white;
+      max-width: 1200px;
+      animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scene Backgrounds */
+    .scene-0 { background: linear-gradient(135deg, #ec407a, #f06292, #ec407a); }
+    .scene-1 { background: linear-gradient(135deg, #616161, #757575, #424242); }
+    .scene-2 { background: linear-gradient(135deg, #26a69a, #4db6ac, #00897b); }
+    .scene-3 { background: linear-gradient(135deg, #7e57c2, #9575cd, #673ab7); }
+    .scene-4 { background: linear-gradient(135deg, #ff9800, #ffa726, #f57c00); }
+    .scene-5 { background: linear-gradient(135deg, #e91e63, #f06292, #c2185b); }
+    .scene-6 { background: linear-gradient(135deg, #ec407a, #f06292, #ec407a); }
+
+    /* Typography */
+    .scene-title {
+      font-size: 4.5rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .scene-subtitle {
+      font-size: 2rem;
+      opacity: 0.95;
+      margin-bottom: 1rem;
+    }
+
+    .scene-icon {
+      font-size: 5rem;
+      margin-bottom: 2rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Content Cards */
+    .content-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .content-item {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      padding: 2rem;
+      font-size: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      animation: scaleIn 0.6s ease-out forwards;
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 25px;
+      padding: 2.5rem;
+      transition: transform 0.3s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    .feature-card:hover {
+      transform: scale(1.05);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 25px;
+      padding: 3rem 2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    .stat-number {
+      font-size: 4rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .stat-label {
+      font-size: 1.5rem;
+      opacity: 0.9;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      margin-top: 3rem;
+      background: white;
+      color: #ec407a;
+      border: none;
+      padding: 1.5rem 3rem;
+      border-radius: 50px;
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .cta-button:hover {
+      transform: scale(1.1) !important;
+    }
+
+    /* Navigation Controls */
+    .nav-controls {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 1000;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .dots-container {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dot.active {
+      background: white;
+      width: 32px;
+      border-radius: 6px;
+    }
+
+    /* Back to Site */
+    .back-to-site {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transition: all 0.3s;
+    }
+
+    .back-to-site:hover {
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .scene-title { font-size: 2.5rem; }
+      .scene-subtitle { font-size: 1.2rem; }
+      .features-grid,
+      .stats-grid { grid-template-columns: 1fr; }
+      .feature-card,
+      .stat-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="promo-container">
+    <!-- Falling Petals Container -->
+    <div id="petals-container"></div>
+
+    <!-- Scene 0: Title -->
+    <div class="scene scene-0 active" data-scene="0">
+      <div class="scene-content">
+        <div class="scene-icon">🌸</div>
+        <h1 class="scene-title">الآنسة فصيحة</h1>
+        <p class="scene-subtitle"> منصة بوت دردشة ونظام ترجمة ذكي يهدف إلى تعزيز المحتوى الرقمي العربي وتقديم خدمات لغوية عالية الجودة.
+      </p>
+        <p class="scene-subtitle" style="font-size: 1.3rem; margin-top: 2rem; opacity: 0.8;">
+          الكلية التقنية الرقمية للبنات بجدة
+        </p>
+          <div class="content-item" style="max-width: 600px; margin: 2rem auto 0; background: rgba(255,255,255,0.3); animation-delay: 0.5s;">
+          بإشراف: مزنة العقلا
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 1: Problem -->
+    <div class="scene scene-1" data-scene="1">
+      <div class="scene-content">
+        <h2 class="scene-title">المشكلة</h2>
+        <div class="content-grid">
+          <div class="content-item" style="animation-delay: 0s;">
+            صعوبة الحصول على ترجمات عربية فصيحة عالية الجودة
+          </div>
+          <div class="content-item" style="animation-delay: 0.2s;">
+            فقدان التنسيق عند ترجمة الملفات
+          </div>
+          <div class="content-item" style="animation-delay: 0.4s;">
+            عدم توفر خدمة ترجمة موثوقة ومجانية
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 2: Solution -->
+    <div class="scene scene-2" data-scene="2">
+      <div class="scene-content">
+        <h2 class="scene-title">الحل</h2>
+        <div class="content-grid">
+          <div class="content-item" style="animation-delay: 0s;">
+            نظام ترجمة ذكي بدقة 97.7%
+          </div>
+          <div class="content-item" style="animation-delay: 0.2s;">
+            شات بوت مدعوم بـ Gemini AI
+          </div>
+          <div class="content-item" style="animation-delay: 0.4s;">
+            ترجمة الملفات مع الحفاظ على التنسيق
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 3: Features -->
+    <div class="scene scene-3" data-scene="3">
+      <div class="scene-content">
+        <h2 class="scene-title">المميزات</h2>
+        <div class="features-grid">
+          <div class="feature-card" style="animation-delay: 0s;">
+            <div class="feature-icon">✨</div>
+            <p style="font-size: 1.5rem;">ترجمة فورية بالذكاء الاصطناعي</p>
+          </div>
+          <div class="feature-card" style="animation-delay: 0.15s;">
+            <div class="feature-icon">📄</div>
+            <p style="font-size: 1.5rem;">دعم ملفات Word & EPUB</p>
+          </div>
+          <div class="feature-card" style="animation-delay: 0.3s;">
+            <div class="feature-icon">💬</div>
+            <p style="font-size: 1.5rem;">شات بوت ذكي للمساعدة</p>
+          </div>
+          <div class="feature-card" style="animation-delay: 0.45s;">
+            <div class="feature-icon">⚡</div>
+            <p style="font-size: 1.5rem;">سرعة استجابة 2 ثانية</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 4: Team -->
+    <div class="scene scene-4" data-scene="4">
+      <div class="scene-content">
+        <h2 class="scene-title">فريق العمل</h2>
+        <div class="content-grid" style="max-width: 800px; margin: 0 auto;">
+          <div class="content-item" style="animation-delay: 0s;">وسن حسن حقي</div>
+          <div class="content-item" style="animation-delay: 0.1s;">رحمة موسى الأسمري</div>
+          <div class="content-item" style="animation-delay: 0.2s;">فاطمة عبد الرحمن الغامدي</div>
+          <div class="content-item" style="animation-delay: 0.3s;">رغد حسين الزهراني</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 5: Results -->
+    <div class="scene scene-5" data-scene="5">
+      <div class="scene-content">
+        <h2 class="scene-title">النتائج</h2>
+        <div class="stats-grid">
+          <div class="stat-card" style="animation-delay: 0s;">
+            <div class="stat-number">97.7%</div>
+            <div class="stat-label">دقة الترجمة</div>
+          </div>
+          <div class="stat-card" style="animation-delay: 0.1s;">
+            <div class="stat-number">2.0s</div>
+            <div class="stat-label">سرعة الاستجابة</div>
+          </div>
+          <div class="stat-card" style="animation-delay: 0.2s;">
+            <div class="stat-number">2.27%</div>
+            <div class="stat-label">معدل الهلوسة</div>
+          </div>
+          <div class="stat-card" style="animation-delay: 0.3s;">
+            <div class="stat-number">40+</div>
+            <div class="stat-label">سؤال في قاعدة المعرفة</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 6: Contact -->
+    <div class="scene scene-6" data-scene="6">
+      <div class="scene-content">
+        <h2 class="scene-title">تواصل معنا</h2>
+        <div class="content-grid" style="max-width: 700px; margin: 0 auto;">
+          <div class="content-item" style="animation-delay: 0s; font-size: 1.8rem;">
+            📧 missfasihah@gmail.com
+          </div>
+          <div class="content-item" style="animation-delay: 0.2s; font-size: 1.8rem;">
+            📱 +966567893451
+          </div>
+        </div>
+        <button class="cta-button" onclick="window.location.href='index.html'">
+          ابدأ الترجمة الآن 🚀
+        </button>
+      </div>
+    </div>
+
+    <!-- Back to Site Button -->
+    <button class="back-to-site" onclick="window.location.href='index.html'">
+      ← العودة للموقع
+    </button>
+
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+      <button class="nav-btn" id="prev-btn">السابق</button>
+      <div class="dots-container" id="dots-container"></div>
+      <button class="nav-btn" id="next-btn">التالي</button>
+      <button class="nav-btn" id="play-btn">⏸️</button>
+    </div>
+  </div>
+
+  <script>
+    // Initialize
+    let currentScene = 0;
+    let isPlaying = true;
+    let autoPlayTimer;
+    const totalScenes = 7;
+    const scenes = document.querySelectorAll('.scene');
+
+    // Create falling petals
+    function createPetals() {
+      const container = document.getElementById('petals-container');
+      for (let i = 0; i < 20; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.textContent = '🌸';
+        petal.style.left = Math.random() * 100 + '%';
+        petal.style.animationDelay = Math.random() * 5 + 's';
+        petal.style.animationDuration = (5 + Math.random() * 5) + 's';
+        container.appendChild(petal);
+      }
+    }
+
+    // Create dots
+    function createDots() {
+      const container = document.getElementById('dots-container');
+      for (let i = 0; i < totalScenes; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToScene(i));
+        container.appendChild(dot);
+      }
+    }
+
+    // Go to scene
+    function goToScene(index) {
+      if (index < 0 || index >= totalScenes) return;
+      
+      scenes[currentScene].classList.remove('active');
+      currentScene = index;
+      scenes[currentScene].classList.add('active');
+      
+      // Update dots
+      document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentScene);
+      });
+      
+      // Update buttons
+      document.getElementById('prev-btn').disabled = currentScene === 0;
+      document.getElementById('next-btn').textContent = 
+        currentScene === totalScenes - 1 ? 'إعادة' : 'التالي';
+      
+      resetAutoPlay();
+    }
+
+    // Auto play
+    function startAutoPlay() {
+      if (!isPlaying) return;
+      autoPlayTimer = setTimeout(() => {
+        if (currentScene < totalScenes - 1) {
+          goToScene(currentScene + 1);
+        } else {
+          isPlaying = false;
+          document.getElementById('play-btn').textContent = '▶️';
+        }
+      }, 4000);
+    }
+
+    function resetAutoPlay() {
+      clearTimeout(autoPlayTimer);
+      if (isPlaying) startAutoPlay();
+    }
+
+    // Event listeners
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      goToScene(currentScene - 1);
+    });
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+      if (currentScene === totalScenes - 1) {
+        goToScene(0);
+        isPlaying = true;
+        document.getElementById('play-btn').textContent = '⏸️';
+      } else {
+        goToScene(currentScene + 1);
+      }
+    });
+
+    document.getElementById('play-btn').addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      document.getElementById('play-btn').textContent = isPlaying ? '⏸️' : '▶️';
+      if (isPlaying) {
+        startAutoPlay();
+      } else {
+        clearTimeout(autoPlayTimer);
+      }
+    });
+
+    // Initialize
+    createPetals();
+    createDots();
+    startAutoPlay();
+  </script>
+</body>
+</html>
