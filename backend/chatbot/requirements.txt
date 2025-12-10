@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+# يُوصى باستخدام google-generativeai أو تثبيت الإصدار الأحدث المتوافق مع 3.9+
+google-generativeai
+python-dotenv
